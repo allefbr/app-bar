@@ -12,7 +12,7 @@ const knex = require('knex')({
         host: '127.0.0.1',
         user: 'root',
         password: '',
-        database: 'ze_priquito_db'
+        database: 'app-bar'
     }
 });
 

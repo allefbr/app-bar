@@ -22,15 +22,15 @@
                 <div class="col-12">
                     <h2 style="margin-bottom: 20px; margin-top: 50px;">Cadastar produtos</h2>
 
-                    <form class="form-inline row">
+                    <div class="form-inline row" submit="false">
                         <div class="form-group mx-sm-3">
-                            <label for="nome" class="sr-only">Nome</label>
-                            <input type="text" class="form-control" id="nome" placeholder="Nome">
+                            <label for="texto" class="sr-only">Nome</label>
+                            <input type="text" class="form-control" id="texto" placeholder="Nome do produto">
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            Enviar <i class="fas fa-paper-plane"></i>
+                        <button type="submit" class="btn btn-primary" id="botao">
+                            Adicionar <i class="fas fa-paper-plane"></i>
                         </button>
-                    </form>
+                    </div>
 
                 </div>
             </div>
@@ -53,43 +53,124 @@
 
         window.onload = () => {
             const lista = document.querySelector('#lista-produtos');
-            const produto = new Produtos( lista );
+            const texto = document.querySelector('#texto');
+            const botao = document.querySelector('#botao');
+            
+            const produto = new Produtos(lista, texto);
+            
+            // init
+            produto.ler();
 
-            produto.criar();
+            // event
+            botao.addEventListener('click', function() {
+                produto.criar() 
+            });
+            
+            // apagar
+            lista.addEventListener('click', function( element ){
+                produto.apagar( element ) ;
+            });
+                        
+            // editar
+            lista.addEventListener('click', function( element ){                
+                produto.editar( element );                
+            });
         };
         
         class Produtos {
-            
-            constructor( list ){
-                this.list = list;
+
+            constructor( list, text, button ){
+                this.lista = list;
+                this.texto = text;                
             }
             
-            criar() {                
+            templateLi(id, name, element = true){ 
+                return `
+                    ${ element ? `<li class="list-group-item d-flex justify-content-between align-items-center">` : ''}
+                        ${name}
+                        <div> 
+                            <i class="fas fa-pencil-alt btn btn-primary update" data-id="${id}"></i>
+                            <i class="far fa-trash-alt btn btn-danger delete" data-id="${id}"></i>
+                        </div> 
+                    ${ element ? `</li>` : ''}
+                `
+            }
+            
+            ler() {                
                 // limpa os dados
-                this.list.innerHTML = '';
+                this.lista.innerHTML = '';
 
                 // Ajax dos dados pelo axios
                 axios.get('/produtos')
                     .then((response) => {
 
                         response.data.forEach( element => {
-                            this.list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">${element.name}</li>`
+                            this.lista.innerHTML += this.templateLi(element.id, element.name);
                         });
 
                     })
                     .catch( error => console.log(error) );
             }
 
-            editar() {
+            criar(){
+                const name = this.texto.value;
 
+                axios.post('/produtos/cadastro', { name })
+                    .then( (response) => {
+                        this.lista.innerHTML += this.templateLi(response.data[0], name);
+                        this.texto.value = '';
+                    })
+                    .catch( err => console.log(err) );
             }
 
-            atualizar() {
+            editar( element ) {
+                if (element.target.classList.contains('update')) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.setAttribute('value', '');
+                    input.setAttribute('placeholder', 'Digite o novo produto');
+                    input.style.width = '100%';
+                    input.classList.add('form-control');
 
+                    const pai = element.target.parentElement.parentElement;
+                    const id = element.target.dataset.id;
+
+                    pai.innerHTML = '';
+                    pai.appendChild(input);
+
+                    input.addEventListener('keydown', this.atualizar.bind(this, pai, id, input) );
+                    input.focus();
+                }
             }
 
-            apagar() {
+            atualizar(pai, id, input) {
+                const code = event.key;
+                const name = input.value;
+                if ( code == null || code != 'Enter') return;
+                
+                // ajax
+                axios.put(`/produtos/atualizar/${id}`, { name } )
+                    .then( (response) => {
+                        if ( response.status == 200 ) {                            
+                            pai.innerHTML = this.templateLi(id, name, false);
+                        }
+                    })
+                    .catch( err => console.log(err));
+            }
 
+            apagar( element ) {
+                if ( element.target.classList.contains('delete') ) {
+                    const id = element.target.dataset.id;
+                    
+                    axios.delete(`/produtos/apagar/${id}`)
+                        .then((response) => {
+                            if ( response.status == 200 ) {
+                                this.lista.removeChild( element.path[2] );
+                            }
+                        })
+                        .catch(error => console.log(error));
+
+                }
             }
         }
 
