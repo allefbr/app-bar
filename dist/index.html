@@ -13,33 +13,109 @@
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+        <style>
+            body {
+                color: #636e72;
+            }
+
+            .topo {
+                background-color: #273c75; 
+                color: #fff;
+                padding: 15px;
+            }
+
+            .logo {
+                text-transform: uppercase;
+                font-size: 18px;
+                font-weight: 400;
+                margin: 0;
+            }
+
+            .tit-primary {
+                margin-bottom: 20px;                               
+                text-align: center;
+                font-size: 19px;
+                text-transform: uppercase;
+                font-weight: 400;
+            }
+
+            .tit-primary--small {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .box-cadastro {
+                justify-content: center;
+                background: #f1f1f1;
+                padding: 40px 0;
+            }
+
+            .box-cadastro .form-control {
+                flex-grow: 1;
+
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .box-cadastro .btn {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .list-group {
+                font-size: 14px;
+            }
+
+            .btn,
+            .update, 
+            .delete {
+                cursor: pointer;
+            }
+
+
+            .update {
+                margin-right: 3px;
+            }
+
+            .update:hover {                
+                color: #2980b9;
+            }
+
+            .delete:hover {                
+                color: #c0392b;
+            }
+            
+        </style>
     </head>
 
     <body>
-        
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h2 style="margin-bottom: 20px; margin-top: 50px;">Cadastar produtos</h2>
+        <header class="topo d-flex align-items-center justify-content-center">
+            <h2 class="logo">
+                <i class="fas fa-beer"></i>
+                Bar<strong>Crud</strong>
+            </h2>
+        </header>
+
+        <div class="container-fluid">
+            <div class="row box-cadastro">
+                <div class="col-6">
+                    <h2 class="tit-primary">Cadastar <b>produtos</b></h2>
 
                     <div class="form-inline row" submit="false">
-                        <div class="form-group mx-sm-3">
-                            <label for="texto" class="sr-only">Nome</label>
-                            <input type="text" class="form-control" id="texto" placeholder="Nome do produto">
+                        <input type="text" class="form-control" id="texto" placeholder="Nome do produto" />
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary" id="botao">
+                                Adicionar <i class="fas fa-paper-plane"></i>
+                            </button>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="botao">
-                            Adicionar <i class="fas fa-paper-plane"></i>
-                        </button>
                     </div>
 
                 </div>
             </div>
 
-            <hr>
-
-            <div class="row">
-                <div class="col-12">
-                    <h2 style="margin-bottom: 20px;">Lista de produtos</h2>
+            <div class="row justify-content-center">
+                <div class="col-9">
+                    <h2 class="tit-primary tit-primary--small" style="margin-bottom: 20px;">Lista de <b>produtos</b></h2>
 
                     <ul class="list-group" id="lista-produtos"></ul>
                 </div>
@@ -89,8 +165,8 @@
                     ${ element ? `<li class="list-group-item d-flex justify-content-between align-items-center">` : ''}
                         ${name}
                         <div> 
-                            <i class="fas fa-pencil-alt btn btn-primary update" data-id="${id}"></i>
-                            <i class="far fa-trash-alt btn btn-danger delete" data-id="${id}"></i>
+                            <i class="fas fa-pencil-alt update" data-id="${id}"></i>
+                            <i class="far fa-trash-alt delete" data-id="${id}"></i>
                         </div> 
                     ${ element ? `</li>` : ''}
                 `
