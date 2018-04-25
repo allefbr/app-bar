@@ -1,6 +1,11 @@
 # RestFul com Node.js
 Este repositório contém um pequeno CRUD com Node.js consumido com RESTful em um banco de dados MySQL.
 
+
+
+
+
+
 As seguintes tecnologias foram usadas.
 *   [Nodemon](https://nodemon.io/).
 *   [Restify](http://restify.com/).
