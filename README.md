@@ -4,8 +4,6 @@ Este repositório contém um pequeno CRUD com Node.js consumido com RESTful em u
 
 
 
-
-
 As seguintes tecnologias foram usadas.
 *   [Nodemon](https://nodemon.io/).
 *   [Restify](http://restify.com/).
