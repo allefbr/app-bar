@@ -2,7 +2,7 @@
 Este repositório contém um pequeno CRUD com Node.js consumido com RESTful em um banco de dados MySQL.
 
 
-
+![alt text](https://github.com/allefbr/app-crud-bar/blob/master/preview.png "Logo Title Text 1")
 
 As seguintes tecnologias foram usadas.
 *   [Nodemon](https://nodemon.io/).
