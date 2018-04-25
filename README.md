@@ -1,4 +1,4 @@
-# RestFul com Node.js
+# RESTFul com Node.js
 Este repositório contém um pequeno CRUD com Node.js consumido com RESTful em um banco de dados MySQL.
 
 
@@ -17,9 +17,9 @@ Para fazer o projeto funcionar direitinho, você precisa ter o MySQL configurado
 
 ```sql
 
-CREATE DATABASE `node_crud_app`;
+CREATE DATABASE `app_crud_bar`;
 
-USE `node_crud_app`;
+USE `app_crud_bar`;
 
 CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
@@ -50,12 +50,13 @@ const knex = require('knex')({
         host: 'seu_host',
         user: 'seu_usuario',
         password: 'seua_senha',
-        database: 'node-crud-prod'
+        database: 'app_crud_bar'
     }
 });
 ```
 
 Instale o nodemon globalmente.
+
 `npm install -g nodemon`
 
 Entre no seu projeto e instale todas as dependências.
